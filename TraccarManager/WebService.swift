@@ -294,7 +294,7 @@ class WebService: NSObject, SRWebSocketDelegate {
         
     }
     
-    private static var Manager: Alamofire.SessionManager = {
+    private static var Manager: Alamofire.Session = {
         
         // Create the server trust policies
         var domainTrust = ""
@@ -302,21 +302,20 @@ class WebService: NSObject, SRWebSocketDelegate {
         if let s = d.string(forKey: Definitions.TCDefaultsTrustDomain) {
             domainTrust =  s
         }
-        
-        let serverTrustPolicies: [String: ServerTrustPolicy] = [
-            domainTrust: .disableEvaluation
-        ]
+//
+//        let serverTrustPolicies: [String: ServerTrustPolicy] = [
+//            domainTrust: .disableEvaluation
+//        ]
         
         // Create custom manager
-        var headers = Alamofire.SessionManager.defaultHTTPHeaders
-        headers["Accept"] = "application/json"
         let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = headers
-        let manager = Alamofire.SessionManager(
-            configuration: configuration,
-            serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies)
+        configuration.headers.add(name: "Accept", value: "application/json")
+
+        let manager = Alamofire.Session(
+            configuration: configuration
+//            serverTrustManager: ServerTrustManager(evaluators: [domainTrust : DisabledTrustEvaluator])
         )
-        
+                
         return manager
     }()
     
