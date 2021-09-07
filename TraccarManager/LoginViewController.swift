@@ -81,6 +81,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             if let p = KeychainWrapper.standard.string(forKey: TCDefaultsPassKey) {
                 self.passwordField.text = p
                 self.loginButton.becomeFirstResponder()
+                loginButtonPressed() //auto login
             } else {
                 self.passwordField.becomeFirstResponder()
             }

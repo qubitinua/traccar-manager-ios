@@ -196,7 +196,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             self.navigationItem.rightBarButtonItem?.isEnabled = true
             self.buttonReport.isEnabled = true
             self.devices = newDevices
-            
+            if (self.devices.count == 1) {
+                self.selectedDevice = self.devices.first
+                self.followDevice = true
+                print("[SEKA] follow " + (self.selectedDevice?.name)!)
+            }
             // if devices are added/removed from the server while user is logged-in, the
             // positions will be added/removed from the map here
             self.refreshPositions()
@@ -216,6 +220,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func refreshPositions() {
         
+        print("[SEKA] follow device: " + followDevice.description)
         // positions of devices
         self.positions = WebService.sharedInstance.positions
         
@@ -264,6 +269,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 if point?.selected != isDeviceSelected {
                     point?.selected = isDeviceSelected
                 }
+                print("[SEKA] point selected: " + (point?.selected!.description)!)
                 if point?.title != device.name {
                     point?.title = device.name
                 }
@@ -281,12 +287,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 }
                 if point!.selected! && followDevice {
                     zoomDevice()
+                    print("[SEKA] zoom device")
                 }
             }
         }
         if isLogin {
             //set region all devices
-            self.mapView?.showAnnotations((self.mapView?.annotations)!, animated: true)
+//            self.mapView?.showAnnotations((self.mapView?.annotations)!, animated: true)
             isLogin = false
         }
     }
