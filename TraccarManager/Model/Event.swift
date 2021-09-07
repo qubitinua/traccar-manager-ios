@@ -12,7 +12,7 @@ struct Event: Decodable {
     let id: Int?
     let deviceId: Int?
     let type: String?
-    let serverTime: Date?
+    let eventTime: Date?
     let positionId: Int?
     let geofenceId: Int?
     let attributes: AttributeObject?
@@ -77,14 +77,14 @@ extension Event {
             case "geofenceEnter": return "Device has entered geofence"
             default: return self.type!
             }
-        case "servertime":
+        case "eventtime":
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd.MM.yy HH:mm:ss"
-            return dateFormatter.string(from: self.serverTime!)
+            return dateFormatter.string(from: self.eventTime!)
         case "time":
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd.MM.yy HH:mm:ss"
-            return dateFormatter.string(from: self.serverTime!)
+            return dateFormatter.string(from: self.eventTime!)
         case "positionid": return String(self.positionId!)
         case "geofenceid": return String(self.geofenceId!)
         case "geofence":

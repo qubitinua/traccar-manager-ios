@@ -75,7 +75,7 @@ class WebService: NSObject, SRWebSocketDelegate {
         
         let request = NSMutableURLRequest(url: URL(string: urlString)!)
         
-        socket = SRWebSocket(urlRequest: request as URLRequest, protocols: nil, allowsUntrustedSSLCertificates: true)
+        socket = SRWebSocket(urlRequest: request as URLRequest, protocols: nil)
         
         if let s = socket {
             let cookiePath = "\(serverURL!)api"
@@ -91,6 +91,7 @@ class WebService: NSObject, SRWebSocketDelegate {
     
     
     func webSocket(_ webSocket: SRWebSocket, didReceiveMessageWith string: String) {
+        print("WS_JSON: " + string)
         if let data = string.data(using: String.Encoding.utf8) {
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as! [String:AnyObject]
@@ -224,7 +225,6 @@ class WebService: NSObject, SRWebSocketDelegate {
             }
 
         }, onSuccess: { (data) in
-
             let decoder = JSONDecoder()
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
@@ -271,9 +271,10 @@ class WebService: NSObject, SRWebSocketDelegate {
     func getDataServer (filter: String, urlPoint: String, onFailure: ((String) -> Void)? = nil, onSuccess: @escaping (Data) -> Void) {
         
         let url = serverURL! + "api/" + urlPoint + filter
-        
+        print("[getDataServer] " + url)
         WebService.Manager.request(url).responseString(encoding: .utf8, completionHandler: { response in
             
+            print("[getDataServer]" + String(data: response.data!, encoding: .utf8)!)
             switch response.result {
                 
                 case .success(let res):

@@ -37,7 +37,7 @@ class ReportViewController: UITableViewController {
         //if no records
         buttonMap.isEnabled = false
         
-        let c = Calendar.current.dateComponents([.year, .month], from: Date())
+        let c = Calendar.current.dateComponents([.year, .month, .day], from: Date())
         fromDate = Calendar.current.date(from: c)!
         
         toDate = Calendar.current.startOfDay(for: Date())
@@ -59,7 +59,7 @@ class ReportViewController: UITableViewController {
             keyColumns = ["devicename", "distance", "averageSpeed", "maxSpeed", "engineHours"]
         } else if typeReport == typeReports.Events {
             nameColumns = ["Time", "Type", "Geofence", "Attributes"]
-            keyColumns = ["serverTime", "Type", "Geofence", "Attributes"]
+            keyColumns = ["eventTime", "Type", "Geofence", "Attributes"]
         }
     }
     

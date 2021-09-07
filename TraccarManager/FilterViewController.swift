@@ -43,6 +43,9 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let datePicker = UIDatePicker(frame: CGRect.init(x: 10, y: 50, width: 250, height: 120))
         datePicker.datePickerMode = UIDatePickerMode.date
         datePicker.date = fromDate
+        if #available(iOS 13.4, *) {
+            datePicker.preferredDatePickerStyle = .wheels
+        }
         
         alert.view.addSubview(datePicker)
         
